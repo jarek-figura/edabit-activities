@@ -6,27 +6,31 @@ class Pagination {
 		this.currentPage = 1;
 	}
 	prevPage() {
-		return this.currentPage > 2 ? this.currentPage -= 1 : 1;
+		this.currentPage > 2 ? this.currentPage -= 1 : this.currentPage = 1;
+		return this;
 	}
 	nextPage() {
-		return this.currentPage < this.totalPages ? this.currentPage += 1 : this.totalPages;
+		this.currentPage < this.totalPages ? this.currentPage += 1 : this.currentPage = this.totalPages;
+		return this;
 	}
 	firstPage() {
-		return this.currentPage = 1;
+		this.currentPage = 1;
+		return this;
 	}
 	lastPage() {
-		return this.currentPage = this.totalPages;
+		this.currentPage = this.totalPages;
+		return this;
 	}
 	goToPage(page) {
 		let curr = Math.floor(page);
-		return curr < 1 ? this.currentPage = 1 : curr > this.totalPages ? this.currentPage = this.totalPages : this.currentPage = curr;
+		curr < 1 ? this.currentPage = 1 : curr > this.totalPages ? this.currentPage = this.totalPages : this.currentPage = curr;
+		return this;
 	}
 	getVisibleItems() {
-		return this.items.splice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage);
+		return this.items.slice(this.pageSize * (this.currentPage - 1), this.pageSize * this.currentPage);
 	}
 }
 
-debugger;
 const defaultPagination = new Pagination();                   // Checking correct default values
 console.log(defaultPagination.pageSize);                      // 10
 console.log(defaultPagination.items.length);                  // 0
@@ -47,6 +51,7 @@ console.log((new Pagination(new Array( 1), 10)).currentPage); // 1
 console.log((new Pagination(new Array(11), 10)).currentPage); // 1
 
 // Checking correct implementation of methods that change page
+debugger;
 const p1 = new Pagination(new Array(69), 5);// 5
 console.log(p1.nextPage().currentPage);     // 2
 console.log(p1.lastPage().currentPage);     // 14
